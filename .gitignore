@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno
+.env
+
+# Archivos compilados
+dist/
+build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular
+.angular/
+.cache/
+
+# VS Code
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

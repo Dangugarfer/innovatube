@@ -1,8 +1,15 @@
 # InnovaTube
 
-Prueba técnica para el proceso de selección.
+Prueba técnica desarrollada como parte del proceso de selección.
 
-Tecnologías:
+## Tecnologías
+
 - Angular
 - Node.js
+- Express
 - MySQL
+- YouTube Data API
+
+## Autor
+
+Daniel Guadalupe Garcia Ferrer
