@@ -1,0 +1,129 @@
+/* Import Angular Material theme */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+:root {
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-title: 'Outfit', sans-serif;
+
+  /* Color system - Premium Dark Theme */
+  --bg-main: #0b0f19;
+  --bg-surface: #131b2e;
+  --bg-surface-elevated: #1e2942;
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  --color-primary: #6366f1; /* Indigo */
+  --color-primary-hover: #4f46e5;
+  --color-accent: #ec4899; /* Pink */
+  --color-accent-hover: #db2777;
+  --color-success: #10b981; /* Emerald */
+  --color-warning: #f59e0b; /* Amber */
+  --color-danger: #ef4444; /* Red */
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family-sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-title);
+  color: var(--text-primary);
+  margin-top: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface-elevated);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Angular Material overrides for dark theme integration */
+.mat-mdc-card {
+  background-color: var(--bg-surface) !important;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.mat-mdc-card-title {
+  color: var(--text-primary) !important;
+  font-family: var(--font-family-title) !important;
+}
+
+.mat-mdc-card-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--bg-surface-elevated) !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: var(--text-secondary) !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-unelevated-button {
+  font-family: var(--font-family-sans) !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+}
+
+.mat-mdc-unelevated-button.mat-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.mat-mdc-unelevated-button.mat-accent {
+  background-color: var(--color-accent) !important;
+}
+
+/* Video grid system using auto-fill/minmax */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 16px 0;
+}
+
+@media (max-width: 600px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
