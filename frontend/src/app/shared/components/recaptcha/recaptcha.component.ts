@@ -57,8 +57,8 @@ declare const grecaptcha: any;
   `]
 })
 export class RecaptchaComponent implements OnInit, AfterViewInit, OnDestroy {
-  // Official Google reCAPTCHA v2 Test Site Key (always succeeds and allows test validations)
-  private siteKey = '6LeIxAcTAAAAAJcZVRqy3847Fq2yN05u8U1TOOBt';
+  // Clave de sitio de prueba oficial de Google reCAPTCHA v2 (siempre tiene éxito y permite validaciones de prueba) o clave personalizada
+  private siteKey = '6LdAlj8tAAAAABdxXf6tQA8RoDFnO-6KyFfR-wKI';
   private widgetId: number | null = null;
   private checkInterval: any;
 
@@ -68,7 +68,7 @@ export class RecaptchaComponent implements OnInit, AfterViewInit, OnDestroy {
   loadError = false;
 
   ngOnInit(): void {
-    // Check if grecaptcha is available, otherwise set a timeout fallback
+    // Comprobar si grecaptcha está disponible; de lo contrario, establecer una alternativa por tiempo de espera
     this.checkInterval = setInterval(() => {
       if (typeof grecaptcha !== 'undefined') {
         clearInterval(this.checkInterval);
@@ -76,7 +76,7 @@ export class RecaptchaComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }, 500);
 
-    // Timeout load after 5 seconds
+    // Cancelar la carga por tiempo de espera después de 5 segundos
     setTimeout(() => {
       if (typeof grecaptcha === 'undefined') {
         clearInterval(this.checkInterval);
@@ -115,7 +115,7 @@ export class RecaptchaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   simulateVerification(): void {
-    // Emits a mock token for development when offline or script fails to load
+    // Emite un token simulado para desarrollo cuando se está sin conexión o el script falla al cargar
     this.resolved.emit('MOCK_RECAPTCHA_TOKEN_FOR_DEVELOPMENT');
   }
 

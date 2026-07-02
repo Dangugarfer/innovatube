@@ -28,7 +28,7 @@ services:
       # Client is located on host port 80 (since it maps to frontend service port 80)
       - CLIENT_URL=http://localhost
       # Configured to Google's reCAPTCHA v2 test keys for direct functionality
-      - RECAPTCHA_SECRET_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFzsJjmvV7i8K
+      - RECAPTCHA_SECRET_KEY=6LdAlj8tAAAAAGX-z-jaQv3lp2pe47Nwz0XIiv8X
       - YOUTUBE_API_KEY=YOUR_YOUTUBE_API_KEY
       - SMTP_HOST=smtp.mailtrap.io
       - SMTP_PORT=2525
