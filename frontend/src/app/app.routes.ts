@@ -3,7 +3,7 @@ import { authGuard, guestGuard } from './core/guards/auth.guard';
 import { MainLayoutComponent } from './layout/main-layout.component';
 
 export const routes: Routes = [
-  // Authentication Routes (Only for Guests)
+  // Rutas de Autenticación (Solo para invitados)
   {
     path: 'auth',
     canActivate: [guestGuard],
@@ -27,7 +27,7 @@ export const routes: Routes = [
     ]
   },
 
-  // Protected App Routes (Wrapped in MainLayout)
+  // Rutas protegidas de la aplicación (Envueltas en MainLayout)
   {
     path: '',
     component: MainLayoutComponent,
@@ -49,7 +49,7 @@ export const routes: Routes = [
     ]
   },
 
-  // Fallback Wildcard Route
+  // Ruta comodín de respaldo (Fallback)
   {
     path: '**',
     redirectTo: 'videos'

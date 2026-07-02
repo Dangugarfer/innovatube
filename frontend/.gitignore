@@ -20,6 +20,8 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
+# VS Code en cualquier parte del proyecto
+**/.vscode/
 # Visual Studio Code
 .vscode/*
 !.vscode/settings.json
