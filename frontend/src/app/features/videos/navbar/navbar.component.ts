@@ -67,7 +67,7 @@ import { AuthService } from '../../../core/services/auth.service';
   `,
   styles: [`
     .navbar {
-      background: rgba(19, 27, 46, 0.85) !important;
+      background: var(--bg-surface) !important;
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       position: sticky;
@@ -81,7 +81,7 @@ import { AuthService } from '../../../core/services/auth.service';
       margin: 0 auto;
       display: flex;
       align-items: center;
-      padding: 0 16px;
+      padding: 0 76px 0 16px;
     }
     .brand {
       display: flex;

@@ -1,1 +1,22 @@
 <router-outlet></router-outlet>
+
+<!-- Botón Flotante para Alternar Temas (Tema Claro / Tema Oscuro / Del Sistema) -->
+<div class="theme-toggle-container">
+  <button mat-mini-fab color="accent" [matMenuTriggerFor]="themeMenu" aria-label="Cambiar tema visual" title="Cambiar tema">
+    <mat-icon>{{ getThemeIcon() }}</mat-icon>
+  </button>
+  <mat-menu #themeMenu="matMenu" xPosition="after" yPosition="above" class="custom-theme-menu">
+    <button mat-menu-item (click)="setTheme('light')">
+      <mat-icon [style.color]="currentTheme() === 'light' ? 'var(--color-primary)' : ''">light_mode</mat-icon>
+      <span [style.font-weight]="currentTheme() === 'light' ? '600' : ''">Tema Claro</span>
+    </button>
+    <button mat-menu-item (click)="setTheme('dark')">
+      <mat-icon [style.color]="currentTheme() === 'dark' ? 'var(--color-primary)' : ''">dark_mode</mat-icon>
+      <span [style.font-weight]="currentTheme() === 'dark' ? '600' : ''">Tema Oscuro</span>
+    </button>
+    <button mat-menu-item (click)="setTheme('system')">
+      <mat-icon [style.color]="currentTheme() === 'system' ? 'var(--color-primary)' : ''">settings_brightness</mat-icon>
+      <span [style.font-weight]="currentTheme() === 'system' ? '600' : ''">Predeterminado del Sistema</span>
+    </button>
+  </mat-menu>
+</div>

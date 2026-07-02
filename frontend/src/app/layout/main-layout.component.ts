@@ -19,7 +19,7 @@ import { NavbarComponent } from '../features/videos/navbar/navbar.component';
       </main>
       <footer class="footer">
         <div class="footer-content">
-          <p>© 2026 InnovaTube. All rights reserved. Built with Angular & Node.js.</p>
+          <p>© 2026 InnovaTube. Todos los derechos reservados. Desarrollado por Daniel Ferrer.
         </div>
       </footer>
     </div>
@@ -52,4 +52,4 @@ import { NavbarComponent } from '../features/videos/navbar/navbar.component';
     }
   `]
 })
-export class MainLayoutComponent {}
+export class MainLayoutComponent { }

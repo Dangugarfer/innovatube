@@ -1,0 +1,20 @@
+.theme-toggle-container {
+  position: fixed;
+  top: 15px;
+  right: 24px;
+  z-index: 9999;
+}
+
+.theme-toggle-container button {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s !important;
+  background-color: var(--bg-surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.theme-toggle-container button:hover {
+  transform: scale(1.1) rotate(15deg);
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+}
