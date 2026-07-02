@@ -16,6 +16,7 @@ export interface Video {
   channelTitle: string;
   publishedAt: string;
   isFavorite?: boolean; // campo dinámico en el frontend
+  category?: string;    // categoría organizadora
 }
 
 export interface Favorite {
@@ -27,6 +28,7 @@ export interface Favorite {
   thumbnailUrl: string;
   channelTitle?: string;
   publishedAt?: string;
+  category?: string;    // categoría del favorito
   createdAt?: string;
 }
 

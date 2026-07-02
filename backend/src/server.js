@@ -13,6 +13,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth.routes');
 const videoRoutes = require('./routes/videos.routes');
 const favoriteRoutes = require('./routes/favorites.routes');
+const statsRoutes = require('./routes/stats.routes');
 
 // Conectar a la base de datos
 connectDB();
@@ -24,7 +25,7 @@ app.use(helmet());
 
 // Configuración de CORS - restringido a CLIENT_URL
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:4200';
-logger.info(`CORS configured to allow origin: ${clientUrl}`);
+logger.info(`CORS configurado para permitir el origen: ${clientUrl}`);
 app.use(cors({
   origin: clientUrl,
   credentials: true
@@ -46,15 +47,16 @@ app.use(morgan('combined', { stream: morganStream }));
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/stats', statsRoutes);
 
 // Endpoint de verificación de estado (Health check)
 app.get('/health', (req, res) => {
-  res.status(200).json({ success: true, message: 'Server is healthy' });
+  res.status(200).json({ success: true, message: 'El servidor está sano' });
 });
 
 // Ruta raíz - mensaje/redirección
 app.get('/', (req, res) => {
-  res.send('InnovaTube API is running...');
+  res.send('La API de InnovaTube está en ejecución...');
 });
 
 // Middleware de manejo de errores
@@ -63,7 +65,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
-  logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  logger.info(`Servidor ejecutándose en modo ${process.env.NODE_ENV || 'desarrollo'} en el puerto ${PORT}`);
 });
 
 // Manejar rechazos de promesas no controlados

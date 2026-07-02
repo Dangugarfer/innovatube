@@ -5,7 +5,7 @@ const errorHandler = (err, req, res, next) => {
   let message = err.message;
 
   // Registrar error
-  logger.error('Error handled: %s', err.stack || err);
+  logger.error('Error gestionado: %s', err.stack || err);
 
   // Error de validación o casteo de Mongoose
   if (err.name === 'ValidationError') {
@@ -13,10 +13,10 @@ const errorHandler = (err, req, res, next) => {
     message = Object.values(err.errors).map(val => val.message).join(', ');
   } else if (err.name === 'CastError') {
     statusCode = 400;
-    message = `Resource not found with id of ${err.value}`;
+    message = `Recurso no encontrado con el id ${err.value}`;
   } else if (err.code === 11000) {
     statusCode = 400;
-    message = 'Duplicate field value entered';
+    message = 'Valor de campo duplicado introducido';
   }
 
   res.status(statusCode).json({

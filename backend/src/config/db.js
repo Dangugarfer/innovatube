@@ -13,11 +13,11 @@ try {
 const connectDB = async () => {
   try {
     const connString = process.env.MONGO_URI || 'mongodb://localhost:27017/innovatube';
-    logger.info('Connecting to MongoDB...');
+    logger.info('Conectando a MongoDB...');
     const conn = await mongoose.connect(connString);
-    logger.info(`MongoDB Connected: ${conn.connection.host}`);
+    logger.info(`MongoDB Conectado: ${conn.connection.host}`);
   } catch (error) {
-    logger.error(`Error connecting to MongoDB: ${error.message}`);
+    logger.error(`Error al conectar a MongoDB: ${error.message}`);
     process.exit(1);
   }
 };
