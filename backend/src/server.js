@@ -1,4 +1,4 @@
-// Load environment variables
+// Cargar variables de entorno
 require('dotenv').config();
 
 const express = require('express');
@@ -9,20 +9,20 @@ const connectDB = require('./config/db');
 const logger = require('./utils/logger');
 const { errorHandler } = require('./middleware/errorHandler');
 
-// Route files
+// Archivos de rutas
 const authRoutes = require('./routes/auth.routes');
 const videoRoutes = require('./routes/videos.routes');
 const favoriteRoutes = require('./routes/favorites.routes');
 
-// Connect to database
+// Conectar a la base de datos
 connectDB();
 
 const app = express();
 
-// Security Middlewares
+// Middlewares de seguridad
 app.use(helmet());
 
-// CORS configuration - restricted to CLIENT_URL
+// Configuración de CORS - restringido a CLIENT_URL
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:4200';
 logger.info(`CORS configured to allow origin: ${clientUrl}`);
 app.use(cors({
@@ -30,11 +30,11 @@ app.use(cors({
   credentials: true
 }));
 
-// Body parser
+// Analizador del cuerpo de la petición (Body parser)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// HTTP Request logging with Morgan directed to Winston
+// Registro de peticiones HTTP con Morgan redirigido a Winston
 const morganStream = {
   write: (message) => {
     logger.info(message.trim());
@@ -42,22 +42,22 @@ const morganStream = {
 };
 app.use(morgan('combined', { stream: morganStream }));
 
-// Mount routes
+// Montar rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/favorites', favoriteRoutes);
 
-// Health check endpoint
+// Endpoint de verificación de estado (Health check)
 app.get('/health', (req, res) => {
   res.status(200).json({ success: true, message: 'Server is healthy' });
 });
 
-// Root route redirect/message
+// Ruta raíz - mensaje/redirección
 app.get('/', (req, res) => {
   res.send('InnovaTube API is running...');
 });
 
-// Error Handler Middleware
+// Middleware de manejo de errores
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
@@ -66,9 +66,9 @@ const server = app.listen(PORT, () => {
   logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });
 
-// Handle unhandled promise rejections
+// Manejar rechazos de promesas no controlados
 process.on('unhandledRejection', (err, promise) => {
   logger.error(`Error: ${err.message}`);
-  // Close server & exit process
+  // Cerrar servidor y salir del proceso
   server.close(() => process.exit(1));
 });

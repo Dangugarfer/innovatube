@@ -1,5 +1,14 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
 const logger = require('../utils/logger');
+
+//  Configurar servidores DNS de reserva
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (dnsErr) {
+  logger.warn(`Failed to set DNS servers: ${dnsErr.message}`);
+}
+
 
 const connectDB = async () => {
   try {

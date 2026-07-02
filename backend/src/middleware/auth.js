@@ -10,13 +10,13 @@ const protect = async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     try {
-      // Get token from header
+      // Obtener el token del encabezado
       token = req.headers.authorization.split(' ')[1];
 
-      // Verify token
+      // Verificar el token
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_jwt_secret_123456');
 
-      // Get user from the token, omitting the password field (even though it's select: false, we just select it out or find by ID)
+      // Obtener el usuario a partir del token (el campo password ya está excluido por defecto en el modelo)
       req.user = await User.findById(decoded.id);
 
       if (!req.user) {
