@@ -163,10 +163,10 @@ export class VideoListComponent implements OnInit {
 
   videos = signal<Video[]>([]);
   nextPageToken = signal<string>('');
-  currentQuery = signal<string>('Tecnologia'); // Default search
+  currentQuery = signal<string>('Tecnologia'); // Búsqueda por defecto
   loading = signal<boolean>(false);
   
-  // Set to track favorited video IDs rapidly
+  // Set para rastrear rápidamente los IDs de los videos marcados como favoritos
   favoriteIds = signal<Set<string>>(new Set());
 
   ngOnInit(): void {
@@ -195,10 +195,10 @@ export class VideoListComponent implements OnInit {
         this.loading.set(false);
         if (res.success) {
           if (pageToken) {
-            // Append
+            // Añadir al final (paginación)
             this.videos.update(curr => [...curr, ...res.videos]);
           } else {
-            // Overwrite
+            // Sobrescribir (nueva búsqueda)
             this.videos.set(res.videos);
           }
           this.nextPageToken.set(res.nextPageToken || '');
@@ -234,7 +234,7 @@ export class VideoListComponent implements OnInit {
     const isFav = this.isFavorited(videoId);
 
     if (isFav) {
-      // Remove from favorites
+      // Eliminar de favoritos
       this.favoriteService.removeFavorite(videoId).subscribe({
         next: (res) => {
           if (res.success) {
@@ -251,7 +251,7 @@ export class VideoListComponent implements OnInit {
         }
       });
     } else {
-      // Add to favorites
+      // Añadir a favoritos
       this.favoriteService.addFavorite(video).subscribe({
         next: (res) => {
           if (res.success) {

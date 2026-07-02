@@ -1,9 +1,9 @@
 const Favorite = require('../models/Favorite');
 const logger = require('../utils/logger');
 
-// @desc    Get user favorites
+// @desc    Obtener favoritos del usuario
 // @route   GET /api/favorites
-// @access  Private
+// @access  Privado
 const getFavorites = async (req, res, next) => {
   try {
     const { q = '' } = req.query;
@@ -26,14 +26,14 @@ const getFavorites = async (req, res, next) => {
   }
 };
 
-// @desc    Add a video to favorites
+// @desc    Añadir un video a favoritos
 // @route   POST /api/favorites
-// @access  Private
+// @access  Privado
 const addFavorite = async (req, res, next) => {
   try {
     const { videoId, title, description, thumbnailUrl, channelTitle, publishedAt } = req.body;
 
-    // Check if already favorited
+    // Comprobar si ya está marcado como favorito
     let favorite = await Favorite.findOne({ userId: req.user._id, videoId });
     if (favorite) {
       return res.status(400).json({ success: false, message: 'Video is already in favorites' });
@@ -58,9 +58,9 @@ const addFavorite = async (req, res, next) => {
   }
 };
 
-// @desc    Remove a video from favorites
+// @desc    Eliminar un video de favoritos
 // @route   DELETE /api/favorites/:videoId
-// @access  Private
+// @access  Privado
 const removeFavorite = async (req, res, next) => {
   try {
     const { videoId } = req.params;

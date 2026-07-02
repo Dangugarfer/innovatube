@@ -34,7 +34,7 @@ const favoriteSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Ensure a user can only favorite a specific video once
+// Asegurar que un usuario solo pueda marcar un video como favorito una vez
 favoriteSchema.index({ userId: 1, videoId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Favorite', favoriteSchema);

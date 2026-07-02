@@ -13,7 +13,7 @@ const validate = (req, res, next) => {
   next();
 };
 
-// Protect all routes
+// Proteger todas las rutas
 router.use(protect);
 
 router.route('/')

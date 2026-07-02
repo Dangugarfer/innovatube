@@ -1,7 +1,7 @@
 const axios = require('axios');
 const logger = require('../utils/logger');
 
-// Mock data generator for testing without an API key
+// Generador de datos simulados (mock) para pruebas sin una clave de API
 const getMockVideos = (query = '', pageToken = '') => {
   const allMockVideos = [
     {
@@ -86,7 +86,7 @@ const getMockVideos = (query = '', pageToken = '') => {
     }
   ];
 
-  // Simple keyword matching
+  // Coincidencia simple de palabras clave
   let filtered = allMockVideos;
   if (query.trim()) {
     const q = query.toLowerCase();
@@ -95,7 +95,7 @@ const getMockVideos = (query = '', pageToken = '') => {
     );
   }
 
-  // Simple mock pagination
+  // Paginación simulada simple
   const pageSize = 4;
   const startIdx = pageToken === 'page2' ? pageSize : 0;
   const endIdx = startIdx + pageSize;
@@ -111,9 +111,9 @@ const getMockVideos = (query = '', pageToken = '') => {
   };
 };
 
-// @desc    Search YouTube videos via Proxy
+// @desc    Buscar videos de YouTube mediante Proxy
 // @route   GET /api/videos/search
-// @access  Private
+// @access  Privado
 const searchVideos = async (req, res, next) => {
   try {
     const { q = '', pageToken = '' } = req.query;
@@ -129,7 +129,7 @@ const searchVideos = async (req, res, next) => {
       });
     }
 
-    // Call real YouTube API
+    // Llamar a la API real de YouTube
     const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
@@ -160,7 +160,7 @@ const searchVideos = async (req, res, next) => {
   } catch (error) {
     logger.error('Error fetching from YouTube API: %s', error.response?.data?.error?.message || error.message);
     
-    // In case of API quota/network errors, fallback to mock data rather than crashing
+    // En caso de errores de cuota de la API o problemas de red, recurrir a los datos simulados en lugar de fallar
     logger.warn('YouTube API call failed. Falling back to mock data.');
     const { q = '', pageToken = '' } = req.query;
     const mockResult = getMockVideos(q, pageToken);

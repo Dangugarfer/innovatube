@@ -183,7 +183,7 @@ export class VideoCardComponent {
   }
 
   openVideo(): void {
-    // Open video in new tab
+    // Abrir el video en una pestaña nueva
     const url = `https://www.youtube.com/watch?v=${this.video.videoId}`;
     window.open(url, '_blank');
   }

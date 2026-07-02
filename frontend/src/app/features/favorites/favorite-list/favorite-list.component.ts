@@ -115,7 +115,7 @@ export class FavoriteListComponent implements OnInit {
   private favoriteService = inject(FavoriteService);
   private snackBar = inject(MatSnackBar);
 
-  // We convert Favorite model to Video format to reuse components
+  // Convertimos el modelo Favorite al formato Video para reutilizar componentes
   videos = signal<Video[]>([]);
   loading = signal<boolean>(false);
   currentQuery = signal<string>('');
@@ -157,7 +157,7 @@ export class FavoriteListComponent implements OnInit {
     this.favoriteService.removeFavorite(video.videoId).subscribe({
       next: (res) => {
         if (res.success) {
-          // Remove from local list
+          // Eliminar de la lista local
           this.videos.update(list => list.filter(v => v.videoId !== video.videoId));
           this.snackBar.open('Video eliminado de favoritos.', 'Cerrar', { duration: 2000 });
         }

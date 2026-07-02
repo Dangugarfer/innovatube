@@ -34,11 +34,11 @@ import { AuthService } from '../../../core/services/auth.service';
           @if (authService.isAuthenticated()) {
             <a routerLink="/videos" routerLinkActive="active-link" class="nav-item">
               <mat-icon>search</mat-icon>
-              <span>Search</span>
+              <span>Buscar</span>
             </a>
             <a routerLink="/favorites" routerLinkActive="active-link" class="nav-item">
               <mat-icon>favorite</mat-icon>
-              <span>Favorites</span>
+              <span>Favoritos</span>
             </a>
             
             <!-- User Menu -->

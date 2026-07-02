@@ -4,7 +4,7 @@ const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Apply protection middleware to all video routes
+// Aplicar middleware de protección a todas las rutas de videos
 router.use(protect);
 
 router.get('/search', searchVideos);
