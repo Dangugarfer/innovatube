@@ -63,7 +63,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   // Dado que la contraseña tiene select: false, this.password podría no estar cargada si no la seleccionamos explícitamente.
   // Compararemos si está presente.
   if (!this.password) {
-    throw new Error('Password field not selected');
+    throw new Error('El campo contraseña no ha sido seleccionado');
   }
   return bcrypt.compare(candidatePassword, this.password);
 };

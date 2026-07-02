@@ -29,14 +29,14 @@ import { RecaptchaComponent } from '../../../shared/components/recaptcha/recaptc
   template: `
     <div class="auth-container">
       <mat-card class="auth-card">
-        <mat-card-header class="auth-header">
+        <div class="auth-header">
           <div class="brand">
             <mat-icon class="brand-icon">play_circle_filled</mat-icon>
             <span class="brand-text">InnovaTube</span>
           </div>
-          <mat-card-title>Crear Cuenta</mat-card-title>
-          <mat-card-subtitle>Comienza a buscar y guardar tus favoritos</mat-card-subtitle>
-        </mat-card-header>
+          <h2 class="auth-title">Crear Cuenta</h2>
+          <p class="auth-subtitle">Comienza a buscar y guardar tus favoritos</p>
+        </div>
 
         <mat-card-content>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
@@ -154,10 +154,24 @@ import { RecaptchaComponent } from '../../../shared/components/recaptcha/recaptc
       padding: 16px;
     }
     .auth-header {
+      display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       margin-bottom: 24px;
+      padding: 16px 16px 0 16px;
+    }
+    .auth-title {
+      margin: 0 0 8px 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: var(--font-family-title);
+    }
+    .auth-subtitle {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
     }
     .brand {
       display: flex;

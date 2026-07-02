@@ -24,7 +24,7 @@ const loginLimiter = rateLimit({
   max: 10,
   message: {
     success: false,
-    message: 'Too many login attempts. Please try again after 15 minutes.'
+    message: 'Demasiados intentos de inicio de sesión. Por favor, inténtelo de nuevo después de 15 minutos.'
   },
   standardHeaders: true,
   legacyHeaders: false
@@ -34,22 +34,22 @@ const loginLimiter = rateLimit({
 router.post(
   '/register',
   [
-    body('firstName').notEmpty().withMessage('First name is required').trim(),
-    body('lastName').notEmpty().withMessage('Last name is required').trim(),
+    body('firstName').notEmpty().withMessage('El nombre es obligatorio').trim(),
+    body('lastName').notEmpty().withMessage('El apellido es obligatorio').trim(),
     body('username')
-      .notEmpty().withMessage('Username is required')
-      .isLength({ min: 3 }).withMessage('Username must be at least 3 characters long')
+      .notEmpty().withMessage('El nombre de usuario es obligatorio')
+      .isLength({ min: 3 }).withMessage('El nombre de usuario debe tener al menos 3 caracteres')
       .trim(),
-    body('email').isEmail().withMessage('Must be a valid email address').normalizeEmail(),
+    body('email').isEmail().withMessage('Debe ser una dirección de correo electrónico válida').normalizeEmail(),
     body('password')
-      .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+      .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
     body('confirmPassword').custom((value, { req }) => {
       if (value !== req.body.password) {
-        throw new Error('Passwords do not match');
+        throw new Error('Las contraseñas no coinciden');
       }
       return true;
     }),
-    body('recaptchaToken').notEmpty().withMessage('reCAPTCHA token is required')
+    body('recaptchaToken').notEmpty().withMessage('El token de reCAPTCHA es obligatorio')
   ],
   validate,
   register
@@ -60,8 +60,8 @@ router.post(
   '/login',
   loginLimiter,
   [
-    body('usernameOrEmail').notEmpty().withMessage('Username or Email is required').trim(),
-    body('password').notEmpty().withMessage('Password is required')
+    body('usernameOrEmail').notEmpty().withMessage('El nombre de usuario o correo electrónico es obligatorio').trim(),
+    body('password').notEmpty().withMessage('La contraseña es obligatoria')
   ],
   validate,
   login
@@ -71,7 +71,7 @@ router.post(
 router.post(
   '/forgot-password',
   [
-    body('email').isEmail().withMessage('Must be a valid email address').normalizeEmail()
+    body('email').isEmail().withMessage('Debe ser una dirección de correo electrónico válida').normalizeEmail()
   ],
   validate,
   forgotPassword
@@ -81,9 +81,9 @@ router.post(
 router.post(
   '/reset-password',
   [
-    body('email').isEmail().withMessage('Must be a valid email address').normalizeEmail(),
-    body('token').notEmpty().withMessage('Reset token is required').trim(),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+    body('email').isEmail().withMessage('Debe ser una dirección de correo electrónico válida').normalizeEmail(),
+    body('token').notEmpty().withMessage('El token de restablecimiento es obligatorio').trim(),
+    body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
   ],
   validate,
   resetPassword

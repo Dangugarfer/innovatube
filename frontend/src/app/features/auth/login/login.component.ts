@@ -27,14 +27,14 @@ import { AuthService } from '../../../core/services/auth.service';
   template: `
     <div class="auth-container">
       <mat-card class="auth-card">
-        <mat-card-header class="auth-header">
+        <div class="auth-header">
           <div class="brand">
             <mat-icon class="brand-icon">play_circle_filled</mat-icon>
             <span class="brand-text">InnovaTube</span>
           </div>
-          <mat-card-title>Iniciar Sesión</mat-card-title>
-          <mat-card-subtitle>Ingresa para ver y guardar tus videos favoritos</mat-card-subtitle>
-        </mat-card-header>
+          <h2 class="auth-title">Iniciar Sesión</h2>
+          <p class="auth-subtitle">Ingresa para ver y guardar tus videos favoritos</p>
+        </div>
 
         <mat-card-content>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
@@ -101,10 +101,24 @@ import { AuthService } from '../../../core/services/auth.service';
       padding: 16px;
     }
     .auth-header {
+      display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       margin-bottom: 24px;
+      padding: 16px 16px 0 16px;
+    }
+    .auth-title {
+      margin: 0 0 8px 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: var(--font-family-title);
+    }
+    .auth-subtitle {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
     }
     .brand {
       display: flex;

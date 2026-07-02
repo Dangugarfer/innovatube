@@ -20,18 +20,18 @@ const protect = async (req, res, next) => {
       req.user = await User.findById(decoded.id);
 
       if (!req.user) {
-        return res.status(401).json({ success: false, message: 'Not authorized, user not found' });
+        return res.status(401).json({ success: false, message: 'No autorizado, usuario no encontrado' });
       }
 
       next();
     } catch (error) {
-      logger.error('Token verification error: %s', error.message);
-      return res.status(401).json({ success: false, message: 'Not authorized, token failed' });
+      logger.error('Error de verificación de token: %s', error.message);
+      return res.status(401).json({ success: false, message: 'No autorizado, verificación de token fallida' });
     }
   }
 
   if (!token) {
-    return res.status(401).json({ success: false, message: 'Not authorized, no token provided' });
+    return res.status(401).json({ success: false, message: 'No autorizado, no se proporcionó ningún token' });
   }
 };
 

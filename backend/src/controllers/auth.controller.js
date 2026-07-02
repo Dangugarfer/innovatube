@@ -34,19 +34,19 @@ const register = async (req, res, next) => {
     // Verificar reCAPTCHA
     const isValidRecaptcha = await verifyRecaptcha(recaptchaToken, req.ip);
     if (!isValidRecaptcha) {
-      return res.status(400).json({ success: false, message: 'reCAPTCHA verification failed' });
+      return res.status(400).json({ success: false, message: 'Verificación de reCAPTCHA fallida' });
     }
 
     // Verificar si el usuario existe (email)
     let userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ success: false, message: 'Email already registered' });
+      return res.status(400).json({ success: false, message: 'El correo electrónico ya está registrado' });
     }
 
     // Verificar si el usuario existe (username)
     userExists = await User.findOne({ username });
     if (userExists) {
-      return res.status(400).json({ success: false, message: 'Username already taken' });
+      return res.status(400).json({ success: false, message: 'El nombre de usuario ya está en uso' });
     }
 
     // Crear usuario (la contraseña se cifra en el hook «pre-save»)
