@@ -27,6 +27,10 @@ const favoriteSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  category: {
+    type: String,
+    default: 'General'
+  },
   publishedAt: {
     type: Date
   }

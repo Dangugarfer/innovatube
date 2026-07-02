@@ -19,18 +19,23 @@ export class FavoriteService {
     return this.http.get<FavoriteResponse>(this.apiUrl, { params });
   }
 
-  addFavorite(video: Video): Observable<FavoriteResponse> {
+  addFavorite(video: Video, category?: string): Observable<FavoriteResponse> {
     return this.http.post<FavoriteResponse>(this.apiUrl, {
       videoId: video.videoId,
       title: video.title,
       description: video.description,
       thumbnailUrl: video.thumbnailUrl,
       channelTitle: video.channelTitle,
-      publishedAt: video.publishedAt
+      publishedAt: video.publishedAt,
+      category: category || 'General'
     });
   }
 
   removeFavorite(videoId: string): Observable<FavoriteResponse> {
     return this.http.delete<FavoriteResponse>(`${this.apiUrl}/${videoId}`);
+  }
+
+  updateCategory(videoId: string, category: string): Observable<FavoriteResponse> {
+    return this.http.put<FavoriteResponse>(`${this.apiUrl}/${videoId}/category`, { category });
   }
 }

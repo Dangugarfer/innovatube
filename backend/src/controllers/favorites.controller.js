@@ -31,12 +31,12 @@ const getFavorites = async (req, res, next) => {
 // @access  Privado
 const addFavorite = async (req, res, next) => {
   try {
-    const { videoId, title, description, thumbnailUrl, channelTitle, publishedAt } = req.body;
+    const { videoId, title, description, thumbnailUrl, channelTitle, publishedAt, category } = req.body;
 
     // Comprobar si ya está marcado como favorito
     let favorite = await Favorite.findOne({ userId: req.user._id, videoId });
     if (favorite) {
-      return res.status(400).json({ success: false, message: 'Video is already in favorites' });
+      return res.status(400).json({ success: false, message: 'El video ya está en favoritos' });
     }
 
     favorite = await Favorite.create({
@@ -46,7 +46,8 @@ const addFavorite = async (req, res, next) => {
       description,
       thumbnailUrl,
       channelTitle,
-      publishedAt
+      publishedAt,
+      category: category || 'General'
     });
 
     res.status(201).json({
@@ -71,12 +72,44 @@ const removeFavorite = async (req, res, next) => {
     });
 
     if (!favorite) {
-      return res.status(404).json({ success: false, message: 'Favorite not found' });
+      return res.status(404).json({ success: false, message: 'Favorito no encontrado' });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Video removed from favorites'
+      message: 'Video eliminado de favoritos'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Actualizar la categoría de un video favorito
+// @route   PUT /api/favorites/:videoId/category
+// @access  Privado
+const updateFavoriteCategory = async (req, res, next) => {
+  try {
+    const { videoId } = req.params;
+    const { category } = req.body;
+
+    if (!category) {
+      return res.status(400).json({ success: false, message: 'La categoría es obligatoria' });
+    }
+
+    const favorite = await Favorite.findOneAndUpdate(
+      { userId: req.user._id, videoId },
+      { category },
+      { new: true }
+    );
+
+    if (!favorite) {
+      return res.status(404).json({ success: false, message: 'Favorito no encontrado' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Categoría actualizada correctamente',
+      favorite
     });
   } catch (error) {
     next(error);
@@ -86,5 +119,6 @@ const removeFavorite = async (req, res, next) => {
 module.exports = {
   getFavorites,
   addFavorite,
-  removeFavorite
+  removeFavorite,
+  updateFavoriteCategory
 };
