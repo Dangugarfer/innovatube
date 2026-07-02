@@ -9,7 +9,7 @@ import { AuthResponse, User } from '../models/models';
 export class AuthService {
   private apiUrl = '/api/auth';
 
-  // Standalone Signals for reactive state
+  // Señales independientes para el estado reactivo
   private currentUserSignal = signal<User | null>(null);
   
   public currentUser = computed(() => this.currentUserSignal());

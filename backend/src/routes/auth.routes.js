@@ -5,22 +5,22 @@ const { register, login, forgotPassword, resetPassword } = require('../controlle
 
 const router = express.Router();
 
-// Input validation runner middleware
+// Middleware para ejecutar la validación de entrada
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ 
       success: false, 
-      message: errors.array()[0].msg, // Return the first error message for simplicity
+      message: errors.array()[0].msg, // Devolver el primer mensaje de error para simplificar
       errors: errors.array() 
     });
   }
   next();
 };
 
-// Rate limiter for login: 10 attempts per 15 minutes
+// Limitador de tasa para el inicio de sesión: 10 intentos por cada 15 minutos
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000, // 15 minutos
   max: 10,
   message: {
     success: false,
@@ -30,7 +30,7 @@ const loginLimiter = rateLimit({
   legacyHeaders: false
 });
 
-// Register route
+// Ruta de registro
 router.post(
   '/register',
   [
@@ -55,7 +55,7 @@ router.post(
   register
 );
 
-// Login route
+// Ruta de inicio de sesión (Login)
 router.post(
   '/login',
   loginLimiter,
@@ -67,7 +67,7 @@ router.post(
   login
 );
 
-// Forgot Password route
+// Ruta de recuperación de contraseña (Forgot Password)
 router.post(
   '/forgot-password',
   [
@@ -77,7 +77,7 @@ router.post(
   forgotPassword
 );
 
-// Reset Password route
+// Ruta de restablecimiento de contraseña (Reset Password)
 router.post(
   '/reset-password',
   [

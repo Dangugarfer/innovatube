@@ -5,14 +5,14 @@ const User = require('../models/User');
 const { verifyRecaptcha } = require('../utils/recaptcha');
 const logger = require('../utils/logger');
 
-// Generate JWT token
+//  Generar un token JWT
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || 'fallback_jwt_secret_123456', {
     expiresIn: process.env.JWT_EXPIRES_IN || '30d'
   });
 };
 
-// Create email transporter
+// Crear un transportador de correo electrónico
 const createTransporter = () => {
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.mailtrap.io',
@@ -24,32 +24,32 @@ const createTransporter = () => {
   });
 };
 
-// @desc    Register a new user
+// @desc    Registrar un nuevo usuario
 // @route   POST /api/auth/register
-// @access  Public
+// @access  Público
 const register = async (req, res, next) => {
   try {
     const { firstName, lastName, username, email, password, recaptchaToken } = req.body;
 
-    // Verify reCAPTCHA
+    // Verificar reCAPTCHA
     const isValidRecaptcha = await verifyRecaptcha(recaptchaToken, req.ip);
     if (!isValidRecaptcha) {
       return res.status(400).json({ success: false, message: 'reCAPTCHA verification failed' });
     }
 
-    // Check if user exists (email)
+    // Verificar si el usuario existe (email)
     let userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ success: false, message: 'Email already registered' });
     }
 
-    // Check if user exists (username)
+    // Verificar si el usuario existe (username)
     userExists = await User.findOne({ username });
     if (userExists) {
       return res.status(400).json({ success: false, message: 'Username already taken' });
     }
 
-    // Create user (password is hashed in pre-save hook)
+    // Crear usuario (la contraseña se cifra en el hook «pre-save»)
     const user = await User.create({
       firstName,
       lastName,
@@ -60,7 +60,7 @@ const register = async (req, res, next) => {
 
     const token = signToken(user._id);
 
-    // Return user info and token (excluding password)
+    // Devuelve la información del usuario y el token (excluyendo la contraseña)
     res.status(201).json({
       success: true,
       token,
@@ -77,14 +77,14 @@ const register = async (req, res, next) => {
   }
 };
 
-// @desc    Login user
+// @desc    Iniciar sesión de usuario
 // @route   POST /api/auth/login
-// @access  Public
+// @access  Público
 const login = async (req, res, next) => {
   try {
     const { usernameOrEmail, password } = req.body;
 
-    // Find user by email or username, explicitly selecting the password
+    // Buscar usuario por correo electrónico o nombre de usuario, seleccionando explícitamente la contraseña
     const user = await User.findOne({
       $or: [
         { email: usernameOrEmail.toLowerCase() },
@@ -93,13 +93,13 @@ const login = async (req, res, next) => {
     }).select('+password');
 
     if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Credenciales no válidas' });
     }
 
-    // Check if password matches
+    // Comprobar si la contraseña coincide
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Credenciales no válidas' });
     }
 
     const token = signToken(user._id);
@@ -120,63 +120,68 @@ const login = async (req, res, next) => {
   }
 };
 
-// @desc    Request password recovery email
+// @desc    Solicitar correo electrónico de recuperación de contraseña
 // @route   POST /api/auth/forgot-password
-// @access  Public
+// @access  Público
 const forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
 
     if (!user) {
-      // Return 200 even if user doesn't exist for security reasons (don't leak registered emails)
+      // Devolver 200 incluso si el usuario no existe por seguridad (no filtrar correos registrados)
       return res.status(200).json({
         success: true,
-        message: 'If the email exists, a password reset link has been sent.'
+        message: 'Si la dirección de correo electrónico existe, se te ha enviado un enlace para restablecer la contraseña.'
       });
     }
 
-    // Generate reset token (random hex)
+    // Generar token de restablecimiento (hex aleatorio)
     const resetToken = crypto.randomBytes(20).toString('hex');
 
-    // Hash token and set resetPasswordToken on User, select first
-    const hashedToken = crypto.createHash('sha256').update(resetToken). Mendoza = resetToken;
+    // Hashear el token y guardar en el modelo User
+    const hashedToken = crypto.createHash('sha256').update(resetToken).Mendoza = resetToken;
     const hashedDbToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
-    // Save to DB
+    // Guardar en la base de datos
     await User.findByIdAndUpdate(user._id, {
       resetPasswordToken: hashedDbToken,
       resetPasswordExpires: Date.now() + 3600000 // 1 hour
     });
 
-    // Create reset URL
+    // Crear URL de restablecimiento
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:4200';
     const resetUrl = `${clientUrl}/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(user.email)}`;
 
-    const message = `You are receiving this email because you (or someone else) have requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+    const message = `
+Has recibido este correo porque tú, o alguien más, solicitó restablecer la contraseña de tu cuenta.
+Para crear una nueva contraseña, haz clic en el siguiente enlace:
+${resetUrl}
+Si no realizaste esta solicitud, puedes ignorar este mensaje de forma segura. Tu contraseña actual permanecerá sin cambios.
+`;
 
     try {
       const transporter = createTransporter();
       await transporter.sendMail({
         to: user.email,
-        subject: 'InnovaTube Password Reset Request',
+        subject: 'InnovaTube Solicitud de restablecimiento de contraseña',
         text: message
       });
 
-      logger.info(`Password reset email sent successfully to ${user.email}`);
+      logger.info(`Correo electrónico de restablecimiento de contraseña enviado correctamente a ${user.email}`);
 
       res.status(200).json({
         success: true,
-        message: 'Email sent successfully'
+        message: 'Correo electrónico enviado correctamente'
       });
     } catch (mailError) {
-      logger.error('Nodemailer failed to send email: %s', mailError.message);
-      // Fallback for development: output token link in console
-      logger.warn(`DEVELOPMENT FALLBACK: Password Reset Link for ${user.email}: ${resetUrl}`);
+      logger.error('Nodemailer no ha podido enviar el correo electrónico: %s', mailError.message);
+      // Alternativa para desarrollo: imprimir el enlace del token en la consola/logs
+      logger.warn(`OPCIÓN DE RESERVA DE DESARROLLO: Enlace para restablecer la contraseña de ${user.email}: ${resetUrl}`);
 
       res.status(200).json({
         success: true,
-        message: 'Reset email generated. (SMTP not configured, checked server console/logs for link)',
+        message: 'Se ha generado un correo electrónico de restablecimiento. (SMTP no configurado; se han comprobado la consola y los registros del servidor en busca de un enlace)',
         developmentLink: process.env.NODE_ENV !== 'production' ? resetUrl : undefined
       });
     }
@@ -185,17 +190,17 @@ const forgotPassword = async (req, res, next) => {
   }
 };
 
-// @desc    Reset password
+// @desc    Restablecer la contraseña
 // @route   POST /api/auth/reset-password
-// @access  Public
+// @access  Público
 const resetPassword = async (req, res, next) => {
   try {
     const { email, token, password } = req.body;
 
-    // Hash token to compare with DB
+    // Hashear token para comparar con la base de datos
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
-    // Find user with matching token, email, and not expired
+    // Buscar usuario con token y correo coincidentes, y que no haya expirado
     const user = await User.findOne({
       email,
       resetPasswordToken: hashedToken,
@@ -203,21 +208,21 @@ const resetPassword = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(400).json({ success: false, message: 'Invalid or expired token' });
+      return res.status(400).json({ success: false, message: 'Token no válido o caducado' });
     }
 
-    // Set new password (will be hashed in pre-save hook)
+    // Establecer nueva contraseña (se hasheará en el hook pre-save)
     user.password = password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
 
     await user.save();
 
-    logger.info(`Password reset completed successfully for user: ${user.username}`);
+    logger.info(`Se ha completado correctamente el restablecimiento de la contraseña del usuario: ${user.username}`);
 
     res.status(200).json({
       success: true,
-      message: 'Password reset successful'
+      message: 'Contraseña restablecida correctamente'
     });
   } catch (error) {
     next(error);

@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // Redirect to login if not authenticated
+  // Redirigir al inicio de sesión si no está autenticado
   router.navigate(['/auth/login']);
   return false;
 };
@@ -23,7 +23,7 @@ export const guestGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // Redirect to videos home if already logged in
+  // Redirigir a la página de videos si ya está autenticado
   router.navigate(['/videos']);
   return false;
 };

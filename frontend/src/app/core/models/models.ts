@@ -15,7 +15,7 @@ export interface Video {
   thumbnailUrl: string;
   channelTitle: string;
   publishedAt: string;
-  isFavorite?: boolean; // dynamic field on frontend
+  isFavorite?: boolean; // campo dinámico en el frontend
 }
 
 export interface Favorite {

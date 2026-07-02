@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Pre-save hook to hash password
+// Hook pre-guardado para hashear la contraseña
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
@@ -58,10 +58,10 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-// Method to compare password
+// Método para comparar contraseñas
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  // since password has select: false, this.password might not be loaded if we didn't explicitly select it.
-  // We'll pass the hash explicitly or compare if it's present.
+  // Dado que la contraseña tiene select: false, this.password podría no estar cargada si no la seleccionamos explícitamente.
+  // Compararemos si está presente.
   if (!this.password) {
     throw new Error('Password field not selected');
   }

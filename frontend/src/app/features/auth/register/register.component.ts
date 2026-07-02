@@ -113,7 +113,7 @@ import { RecaptchaComponent } from '../../../shared/components/recaptcha/recaptc
               }
             </mat-form-field>
 
-            <!-- Google reCAPTCHA Wrapper -->
+            <!-- Contenedor de Google reCAPTCHA -->
             <app-recaptcha #recaptcha (resolved)="onRecaptchaResolved($event)"></app-recaptcha>
 
             @if (errorMessage()) {

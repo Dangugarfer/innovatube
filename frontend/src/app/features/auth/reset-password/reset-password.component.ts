@@ -180,7 +180,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Parse query parameters from route
+    // Analizar los parámetros de consulta de la ruta
     this.route.queryParams.subscribe(params => {
       this.token = params['token'] || '';
       this.email = params['email'] || '';
