@@ -1,0 +1,46 @@
+# =====================
+# Dependencies
+# =====================
+node_modules/
+**/node_modules/
+
+# =====================
+# Angular
+# =====================
+frontend/dist/
+frontend/out-tsc/
+frontend/.angular/
+**/dist/
+**/out-tsc/
+**/.angular/
+
+# =====================
+# Env files
+# =====================
+.env
+.env.*
+
+# =====================
+# Logs
+# =====================
+npm-debug.log*
+yarn-error.log*
+
+# =====================
+# IDEs
+# =====================
+.vscode/
+**/.vscode/
+.idea/
+*.sublime-workspace
+
+# =====================
+# OS files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Angular cache
+# =====================
+/.angular/cache
