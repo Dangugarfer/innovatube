@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo:6.0-jammy
-    container_name: innovatube-mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-    networks:
-      - innovatube-net
-    restart: unless-stopped
-
   backend:
     build:
       context: ./backend
@@ -19,26 +8,11 @@ services:
     container_name: innovatube-backend
     ports:
       - "5000:5000"
-    environment:
-      - PORT=5000
-      - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/innovatube
-      - JWT_SECRET=production_jwt_secret_987654321_innovatube
-      - JWT_EXPIRES_IN=30d
-      # Client is located on host port 80 (since it maps to frontend service port 80)
-      - CLIENT_URL=http://localhost
-      # Configured to Google's reCAPTCHA v2 test keys for direct functionality
-      - RECAPTCHA_SECRET_KEY=6LdAlj8tAAAAAGX-z-jaQv3lp2pe47Nwz0XIiv8X
-      - YOUTUBE_API_KEY=YOUR_YOUTUBE_API_KEY
-      - SMTP_HOST=smtp.mailtrap.io
-      - SMTP_PORT=2525
-      - SMTP_USER=
-      - SMTP_PASS=
-    depends_on:
-      - mongo
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
     networks:
       - innovatube-net
-    restart: unless-stopped
 
   frontend:
     build:
@@ -49,14 +23,10 @@ services:
       - "80:80"
     depends_on:
       - backend
+    restart: unless-stopped
     networks:
       - innovatube-net
-    restart: unless-stopped
 
 networks:
   innovatube-net:
     driver: bridge
-
-volumes:
-  mongo-data:
-    driver: local
