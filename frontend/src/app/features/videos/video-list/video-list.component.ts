@@ -188,18 +188,44 @@ export class VideoListComponent implements OnInit {
     });
   }
 
+  mapQueryToCategory(query: string): string {
+    const q = query.toLowerCase();
+    if (q.includes('tecnol') || q.includes('code') || q.includes('react') || q.includes('angular') || q.includes('javascript') || q.includes('program') || q.includes('web') || q.includes('dev')) {
+      return 'Tecnología';
+    }
+    if (q.includes('music') || q.includes('song') || q.includes('fonsi') || q.includes('astley') || q.includes('style') || q.includes('sing') || q.includes('band') || q.includes('sonido')) {
+      return 'Música';
+    }
+    if (q.includes('tutorial') || q.includes('learn') || q.includes('educa') || q.includes('how to') || q.includes('clase') || q.includes('curso') || q.includes('aprende')) {
+      return 'Educación';
+    }
+    if (q.includes('fun') || q.includes('entertain') || q.includes('movie') || q.includes('game') || q.includes('play') || q.includes('humor') || q.includes('zoo') || q.includes('mountain') || q.includes('cine') || q.includes('viaje')) {
+      return 'Entretenimiento';
+    }
+    if (q.includes('sport') || q.includes('deport') || q.includes('soccer') || q.includes('futbol') || q.includes('run') || q.includes('gym') || q.includes('ejercicio') || q.includes('entren')) {
+      return 'Deportes';
+    }
+    return 'General';
+  }
+
   fetchVideos(query: string, pageToken?: string): void {
     this.loading.set(true);
     this.videoService.search(query, pageToken).subscribe({
       next: (res) => {
         this.loading.set(false);
         if (res.success) {
+          // Asignar categoría basada en la búsqueda actual
+          const mappedVideos = res.videos.map(v => ({
+            ...v,
+            category: this.mapQueryToCategory(query)
+          }));
+
           if (pageToken) {
             // Añadir al final (paginación)
-            this.videos.update(curr => [...curr, ...res.videos]);
+            this.videos.update(curr => [...curr, ...mappedVideos]);
           } else {
             // Sobrescribir (nueva búsqueda)
-            this.videos.set(res.videos);
+            this.videos.set(mappedVideos);
           }
           this.nextPageToken.set(res.nextPageToken || '');
         }
