@@ -15,11 +15,10 @@ const signToken = (id) => {
 // Crear un transportador de correo electrónico
 const createTransporter = () => {
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.mailtrap.io',
-    port: parseInt(process.env.SMTP_PORT || '2525', 10),
+    service: "gmail",
     auth: {
-      user: process.env.SMTP_USER || '',
-      pass: process.env.SMTP_PASS || ''
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS
     }
   });
 };
@@ -140,7 +139,6 @@ const forgotPassword = async (req, res, next) => {
     const resetToken = crypto.randomBytes(20).toString('hex');
 
     // Hashear el token y guardar en el modelo User
-    const hashedToken = crypto.createHash('sha256').update(resetToken).Mendoza = resetToken;
     const hashedDbToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
     // Guardar en la base de datos
