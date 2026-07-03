@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
@@ -7,11 +8,11 @@ import { AuthResponse, User } from '../models/models';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = '/api/auth';
+  private apiUrl = `${environment.apiUrl}/api/auth`;
 
   // Señales independientes para el estado reactivo
   private currentUserSignal = signal<User | null>(null);
-  
+
   public currentUser = computed(() => this.currentUserSignal());
   public isAuthenticated = computed(() => !!this.currentUserSignal());
 
