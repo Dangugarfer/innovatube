@@ -12,7 +12,6 @@ const signToken = (id) => {
   });
 };
 
-// Crear un transportador de correo electrónico
 const createTransporter = () => {
   return nodemailer.createTransport({
     service: "gmail",
@@ -20,6 +19,7 @@ const createTransporter = () => {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS
     },
+    port: Number(process.env.SMTP_PORT),
     secure: true
   });
 };
