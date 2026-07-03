@@ -17,6 +17,7 @@ export class AuthService {
   public isAuthenticated = computed(() => !!this.currentUserSignal());
 
   constructor(private http: HttpClient) {
+    console.log('API URL:', this.apiUrl);
     this.loadTokenAndUser();
   }
 
