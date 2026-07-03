@@ -1,0 +1,1 @@
+export const API_BASE = "https://innovatube-iqop.onrender.com/api";

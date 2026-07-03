@@ -1,3 +1,4 @@
+import { API_BASE } from '../constants/api';
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -70,7 +71,7 @@ export interface ProgressResponse {
 })
 export class StatsService {
   private http = inject(HttpClient);
-  private apiUrl = '/api/stats';
+  private apiUrl = `${API_BASE}/stats`;
 
   // Registrar reproducción de un video
   recordPlay(payload: {

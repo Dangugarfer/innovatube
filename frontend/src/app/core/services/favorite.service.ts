@@ -1,3 +1,4 @@
+import { API_BASE } from '../constants/api';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,9 +8,9 @@ import { FavoriteResponse, Video } from '../models/models';
   providedIn: 'root'
 })
 export class FavoriteService {
-  private apiUrl = '/api/favorites';
+  private apiUrl = `${API_BASE}/favorites`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getFavorites(query?: string): Observable<FavoriteResponse> {
     let params = new HttpParams();
