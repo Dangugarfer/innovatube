@@ -8,7 +8,7 @@ import { AuthResponse, User } from '../models/models';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/api/auth`;
+  private apiUrl = "https://innovatube-iqop.onrender.com/api/auth";
 
   // Señales independientes para el estado reactivo
   private currentUserSignal = signal<User | null>(null);
