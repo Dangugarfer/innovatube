@@ -39,7 +39,7 @@ import { AuthService } from '../../../core/services/auth.service';
         <mat-card-content>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
             <mat-form-field appearance="fill">
-              <mat-label>Usuario o Correo electrónico</mat-label>
+              <mat-label>Usuario</mat-label>
               <mat-icon matPrefix>person</mat-icon>
               <input matInput formControlName="usernameOrEmail" required />
               @if (loginForm.get('usernameOrEmail')?.hasError('required')) {
